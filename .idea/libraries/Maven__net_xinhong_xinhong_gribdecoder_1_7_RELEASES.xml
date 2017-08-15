@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: net.xinhong:xinhong-gribdecoder:1.7-RELEASES">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/xinhong/xinhong-gribdecoder/1.7-RELEASES/xinhong-gribdecoder-1.7-RELEASES.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/net/xinhong/xinhong-gribdecoder/1.7-RELEASES/xinhong-gribdecoder-1.7-RELEASES-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/xinhong/xinhong-gribdecoder/1.7-RELEASES/xinhong-gribdecoder-1.7-RELEASES-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

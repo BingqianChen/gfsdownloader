@@ -1,0 +1,233 @@
+<GFS-ELEM>
+    <UGRD_100mb>UU_0100</UGRD_100mb>
+    <UGRD_150mb>UU_0150</UGRD_150mb>
+    <UGRD_200mb>UU_0200</UGRD_200mb>
+    <UGRD_250mb>UU_0250</UGRD_250mb>
+    <UGRD_300mb>UU_0300</UGRD_300mb>
+    <UGRD_350mb>UU_0350</UGRD_350mb>
+    <UGRD_400mb>UU_0400</UGRD_400mb>
+    <UGRD_500mb>UU_0500</UGRD_500mb>
+    <UGRD_700mb>UU_0700</UGRD_700mb>
+    <UGRD_850mb>UU_0850</UGRD_850mb>
+    <UGRD_1000mb>UU_1000</UGRD_1000mb>
+    <UGRD_10maboveground>UU_9999</UGRD_10maboveground>
+
+    <VGRD_100mb>VV_0100</VGRD_100mb>
+    <VGRD_150mb>VV_0150</VGRD_150mb>
+    <VGRD_200mb>VV_0200</VGRD_200mb>
+    <VGRD_250mb>VV_0250</VGRD_250mb>
+    <VGRD_300mb>VV_0300</VGRD_300mb>
+    <VGRD_350mb>VV_0350</VGRD_350mb>
+    <VGRD_400mb>VV_0400</VGRD_400mb>
+    <VGRD_500mb>VV_0500</VGRD_500mb>
+    <VGRD_700mb>VV_0700</VGRD_700mb>
+    <VGRD_850mb>VV_0850</VGRD_850mb>
+    <VGRD_1000mb>VV_1000</VGRD_1000mb>
+    <VGRD_10maboveground>VV_9999</VGRD_10maboveground>
+
+    <HGT_100mb>HH_0100</HGT_100mb>
+    <HGT_150mb>HH_0150</HGT_150mb>
+    <HGT_200mb>HH_0200</HGT_200mb>
+    <HGT_250mb>HH_0250</HGT_250mb>
+    <HGT_300mb>HH_0300</HGT_300mb>
+    <HGT_350mb>HH_0350</HGT_350mb>
+    <HGT_400mb>HH_0400</HGT_400mb>
+    <HGT_500mb>HH_0500</HGT_500mb>
+    <HGT_700mb>HH_0700</HGT_700mb>
+    <HGT_850mb>HH_0850</HGT_850mb>
+    <HGT_1000mb>HH_1000</HGT_1000mb>
+
+    <TMP_100mb>TT_0100</TMP_100mb>
+    <TMP_150mb>TT_0150</TMP_150mb>
+    <TMP_200mb>TT_0200</TMP_200mb>
+    <TMP_250mb>TT_0250</TMP_250mb>
+    <TMP_300mb>TT_0300</TMP_300mb>
+    <TMP_350mb>TT_0350</TMP_350mb>
+    <TMP_400mb>TT_0400</TMP_400mb>
+    <TMP_500mb>TT_0500</TMP_500mb>
+    <TMP_700mb>TT_0700</TMP_700mb>
+    <TMP_850mb>TT_0850</TMP_850mb>
+    <TMP_1000mb>TT_1000</TMP_1000mb>
+    <TMP_2maboveground>TT_9999</TMP_2maboveground>
+
+    <RH_100mb>RH_0100</RH_100mb>
+    <RH_150mb>RH_0150</RH_150mb>
+    <RH_200mb>RH_0200</RH_200mb>
+    <RH_250mb>RH_0250</RH_250mb>
+    <RH_300mb>RH_0300</RH_300mb>
+    <RH_350mb>RH_0350</RH_350mb>
+    <RH_400mb>RH_0400</RH_400mb>
+    <RH_500mb>RH_0500</RH_500mb>
+    <RH_700mb>RH_0700</RH_700mb>
+    <RH_850mb>RH_0850</RH_850mb>
+    <RH_1000mb>RH_1000</RH_1000mb>
+    <RH_2maboveground>RH_9999</RH_2maboveground>
+
+    <TMAX_2maboveground>MXT_9999</TMAX_2maboveground>
+    <TMIN_2maboveground>MIT_9999</TMIN_2maboveground>
+    //平均海平面气压
+    <PRMSL_meansealevel>PR_9999</PRMSL_meansealevel>
+    //降水量
+    <!--   <PWAT_entireatmosphere(consideredasasinglelayer)>RN_9999</PWAT_entireatmosphere(consideredasasinglelayer)>
+   -->
+    //总云量
+    <TCDC_lowcloudlayer>CNL_9999</TCDC_lowcloudlayer>
+    <TCDC_entireatmosphere>CN_9999</TCDC_entireatmosphere>
+    //        stringStringHashMap.put("TCDC_middle cloud layer","TR_9999");
+    //        stringStringHashMap.put("TCDC_high cloud layer","TR_9999");
+
+    //        stringStringHashMap.put("TCDC_convective cloud layer","TR_9999");
+    //        stringStringHashMap.put("TCDC_boundary layer cloud layer","TR_9999");
+
+
+    //解释预报需要用到的要素
+    stringStringHashMap.put("HGT_10mb",  "HH_0010");
+    stringStringHashMap.put("HGT_20mb",  "HH_0020");
+    stringStringHashMap.put("HGT_30mb",  "HH_0030");
+    stringStringHashMap.put("HGT_50mb",  "HH_0050");
+    stringStringHashMap.put("HGT_70mb",  "HH_0070");
+    stringStringHashMap.put("HGT_150mb", "HH_0150");
+    stringStringHashMap.put("HGT_250mb", "HH_0250");
+    stringStringHashMap.put("HGT_350mb", "HH_0350");
+    stringStringHashMap.put("HGT_450mb", "HH_0450");
+    stringStringHashMap.put("HGT_550mb", "HH_0550");
+    stringStringHashMap.put("HGT_600mb", "HH_0600");
+    stringStringHashMap.put("HGT_650mb", "HH_0650");
+    stringStringHashMap.put("HGT_750mb", "HH_0750");
+    stringStringHashMap.put("HGT_800mb", "HH_0800");
+    stringStringHashMap.put("HGT_900mb", "HH_0900");
+    stringStringHashMap.put("HGT_925mb", "HH_0925");
+    stringStringHashMap.put("HGT_950mb", "HH_0950");
+    stringStringHashMap.put("HGT_975mb", "HH_0975");
+
+    stringStringHashMap.put("TMP_10mb",  "TT_0010");
+    stringStringHashMap.put("TMP_20mb",  "TT_0020");
+    stringStringHashMap.put("TMP_30mb",  "TT_0030");
+    stringStringHashMap.put("TMP_50mb",  "TT_0050");
+    stringStringHashMap.put("TMP_70mb",  "TT_0070");
+    stringStringHashMap.put("TMP_150mb", "TT_0150");
+    stringStringHashMap.put("TMP_250mb", "TT_0250");
+    stringStringHashMap.put("TMP_350mb", "TT_0350");
+    stringStringHashMap.put("TMP_450mb", "TT_0450");
+    stringStringHashMap.put("TMP_550mb", "TT_0550");
+    stringStringHashMap.put("TMP_600mb", "TT_0600");
+    stringStringHashMap.put("TMP_650mb", "TT_0650");
+    stringStringHashMap.put("TMP_750mb", "TT_0750");
+    stringStringHashMap.put("TMP_800mb", "TT_0800");
+    stringStringHashMap.put("TMP_900mb", "TT_0900");
+    stringStringHashMap.put("TMP_925mb", "TT_0925");
+    stringStringHashMap.put("TMP_950mb", "TT_0950");
+    stringStringHashMap.put("TMP_975mb", "TT_0975");
+
+    stringStringHashMap.put("UGRD_10mb",  "UU_0010");
+    stringStringHashMap.put("UGRD_20mb",  "UU_0020");
+    stringStringHashMap.put("UGRD_30mb",  "UU_0030");
+    stringStringHashMap.put("UGRD_50mb",  "UU_0050");
+    stringStringHashMap.put("UGRD_70mb",  "UU_0070");
+    stringStringHashMap.put("UGRD_150mb", "UU_0150");
+    stringStringHashMap.put("UGRD_250mb", "UU_0250");
+    stringStringHashMap.put("UGRD_350mb", "UU_0350");
+    stringStringHashMap.put("UGRD_450mb", "UU_0450");
+    stringStringHashMap.put("UGRD_550mb", "UU_0550");
+    stringStringHashMap.put("UGRD_600mb", "UU_0600");
+    stringStringHashMap.put("UGRD_650mb", "UU_0650");
+    stringStringHashMap.put("UGRD_750mb", "UU_0750");
+    stringStringHashMap.put("UGRD_800mb", "UU_0800");
+    stringStringHashMap.put("UGRD_900mb", "UU_0900");
+    stringStringHashMap.put("UGRD_925mb", "UU_0925");
+    stringStringHashMap.put("UGRD_950mb", "UU_0950");
+    stringStringHashMap.put("UGRD_975mb", "UU_0975");
+
+    stringStringHashMap.put("VGRD_10mb",  "VV_0010");
+    stringStringHashMap.put("VGRD_20mb",  "VV_0020");
+    stringStringHashMap.put("VGRD_30mb",  "VV_0030");
+    stringStringHashMap.put("VGRD_50mb",  "VV_0050");
+    stringStringHashMap.put("VGRD_70mb",  "VV_0070");
+    stringStringHashMap.put("VGRD_150mb", "VV_0150");
+    stringStringHashMap.put("VGRD_250mb", "VV_0250");
+    stringStringHashMap.put("VGRD_350mb", "VV_0350");
+    stringStringHashMap.put("VGRD_450mb", "VV_0450");
+    stringStringHashMap.put("VGRD_550mb", "VV_0550");
+    stringStringHashMap.put("VGRD_600mb", "VV_0600");
+    stringStringHashMap.put("VGRD_650mb", "VV_0650");
+    stringStringHashMap.put("VGRD_750mb", "VV_0750");
+    stringStringHashMap.put("VGRD_800mb", "VV_0800");
+    stringStringHashMap.put("VGRD_900mb", "VV_0900");
+    stringStringHashMap.put("VGRD_925mb", "VV_0925");
+    stringStringHashMap.put("VGRD_950mb", "VV_0950");
+    stringStringHashMap.put("VGRD_975mb", "VV_0975");
+
+    stringStringHashMap.put("RH_10mb",  "RH_0010");
+    stringStringHashMap.put("RH_20mb",  "RH_0020");
+    stringStringHashMap.put("RH_30mb",  "RH_0030");
+    stringStringHashMap.put("RH_50mb",  "RH_0050");
+    stringStringHashMap.put("RH_70mb",  "RH_0070");
+    stringStringHashMap.put("RH_150mb", "RH_0150");
+    stringStringHashMap.put("RH_250mb", "RH_0250");
+    stringStringHashMap.put("RH_350mb", "RH_0350");
+    stringStringHashMap.put("RH_450mb", "RH_0450");
+    stringStringHashMap.put("RH_550mb", "RH_0550");
+    stringStringHashMap.put("RH_600mb", "RH_0600");
+    stringStringHashMap.put("RH_650mb", "RH_0650");
+    stringStringHashMap.put("RH_750mb", "RH_0750");
+    stringStringHashMap.put("RH_800mb", "RH_0800");
+    stringStringHashMap.put("RH_900mb", "RH_0900");
+    stringStringHashMap.put("RH_925mb", "RH_0925");
+    stringStringHashMap.put("RH_950mb", "RH_0950");
+    stringStringHashMap.put("RH_975mb", "RH_0975");
+
+    stringStringHashMap.put("VVEL_100mb", "WXT_0100");
+    stringStringHashMap.put("VVEL_200mb", "WXT_0200");
+    stringStringHashMap.put("VVEL_300mb", "WXT_0300");
+    stringStringHashMap.put("VVEL_400mb", "WXT_0400");
+    stringStringHashMap.put("VVEL_500mb", "WXT_0500");
+    stringStringHashMap.put("VVEL_700mb", "WXT_0700");
+    stringStringHashMap.put("VVEL_850mb", "WXT_0850");
+    stringStringHashMap.put("VVEL_1000mb","WXT_1000");
+    stringStringHashMap.put("VVEL_10mb",  "WAT_0010");
+    stringStringHashMap.put("VVEL_20mb",  "WAT_0020");
+    stringStringHashMap.put("VVEL_30mb",  "WAT_0030");
+    stringStringHashMap.put("VVEL_50mb",  "WAT_0050");
+    stringStringHashMap.put("VVEL_70mb",  "WAT_0070");
+    stringStringHashMap.put("VVEL_150mb", "WAT_0150");
+    stringStringHashMap.put("VVEL_250mb", "WAT_0250");
+    stringStringHashMap.put("VVEL_350mb", "WAT_0350");
+    stringStringHashMap.put("VVEL_450mb", "WAT_0450");
+    stringStringHashMap.put("VVEL_550mb", "WAT_0550");
+    stringStringHashMap.put("VVEL_600mb", "WAT_0600");
+    stringStringHashMap.put("VVEL_650mb", "WAT_0650");
+    stringStringHashMap.put("VVEL_750mb", "WAT_0750");
+    stringStringHashMap.put("VVEL_800mb", "WAT_0800");
+    stringStringHashMap.put("VVEL_900mb", "WAT_0900");
+    stringStringHashMap.put("VVEL_925mb", "WAT_0925");
+    stringStringHashMap.put("VVEL_950mb", "WAT_0950");
+    stringStringHashMap.put("VVEL_975mb", "WAT_0975");
+
+
+    //本站气压
+    stringStringHashMap.put("PRES_surface","LP_9999");
+    //        雨类型
+    //        stringStringHashMap.put("CRAIN_surface","TR_9999");
+    //        总降水量 王烨
+    stringStringHashMap.put("APCP_surface","TR_9999");
+
+    //绝对涡度
+    //        stringStringHashMap.put("ABSV_100mb", "VO_0100");
+    //        stringStringHashMap.put("ABSV_200mb", "VO_0200");
+    //        stringStringHashMap.put("ABSV_300mb", "VO_0300");
+    //        stringStringHashMap.put("ABSV_400mb", "VO_0400");
+    //        stringStringHashMap.put("ABSV_500mb", "VO_0500");
+    //        stringStringHashMap.put("ABSV_700mb", "VO_0700");
+    //        stringStringHashMap.put("ABSV_850mb", "VO_0850");
+    //        stringStringHashMap.put("ABSV_1000mb","VO_1000");
+
+    //垂直速度
+    //        stringStringHashMap.put("VVEL_100mb", "WXT_0100");
+    //        stringStringHashMap.put("VVEL_200mb", "WXT_0200");
+    //        stringStringHashMap.put("VVEL_300mb", "WXT_0300");
+    //        stringStringHashMap.put("VVEL_400mb", "WXT_0400");
+    //        stringStringHashMap.put("VVEL_500mb", "WXT_0500");
+    //        stringStringHashMap.put("VVEL_700mb", "WXT_0700");
+    //        stringStringHashMap.put("VVEL_850mb", "WXT_0850");
+    //        stringStringHashMap.put("VVEL_1000mb","WXT_1000");
+</GFS-ELEM>

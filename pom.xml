@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>xinhong-product</groupId>
+    <!--<artifactId>gfsdownloader</artifactId>-->
+    <!--<version>1.0-SNAPSHOT</version>-->
+    <!--<groupId>net-xinhong</groupId>-->
+    <artifactId>gfsdownLoad</artifactId>
+    <!--<artifactId>gtsppdownLoad</artifactId>-->
+    <!--<artifactId>rtofsdownLoad</artifactId>-->
+    <!--<artifactId>cfs1downLoad</artifactId>-->
+    <!-- <artifactId>RtofsRead</artifactId>-->
+    <!--<artifactId>wari8downLoad</artifactId>-->
+    <!--<artifactId>wari8l1downLoad</artifactId>-->
+    <!--<artifactId>haidiaodownLoad</artifactId>-->
+    <!--<artifactId>haidiaodownLoadTest</artifactId>-->
+    <!-- <artifactId>ocean1downLoad</artifactId>-->
+    <!--<artifactId>WatchDownloadFiles</artifactId>-->
+    <!--<artifactId>READ</artifactId>-->
+    <!--<artifactId>Himawari8L2Main</artifactId>-->
+    <!-- <artifactId>HyMainThread</artifactId>-->
+
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <!--读取nc文件的包-->
+        <dependency>
+            <groupId>edu.ucar</groupId>
+            <artifactId>cdm</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.ucar</groupId>
+            <artifactId>grib</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.xinhong</groupId>
+            <artifactId>xinhong-gribdecoder</artifactId>
+            <version>1.7-RELEASES</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xinhong-product</groupId>
+            <artifactId>gribparser</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+        <!-- ha -->
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.qpid</groupId>
+            <artifactId>qpid-amqp-1-0-client-jms</artifactId>
+            <version>0.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.oodt</groupId>
+            <artifactId>opendapps</artifactId>
+            <version>0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sis.storage</groupId>
+            <artifactId>sis-netcdf</artifactId>
+            <version>0.7</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>gfsdownload</finalName>
+        <!--<finalName>gtsppdownload</finalName>-->
+        <!-- <finalName>rtofsdownload</finalName>-->
+        <!--<finalName>cfs1download</finalName>-->
+        <!--<finalName>RtofsRead</finalName>-->
+        <!--<finalName>Himawari8L2Main</finalName>-->
+        <!--<finalName>wari8l1download</finalName>-->
+        <!--<finalName>haidiaodownload</finalName>-->
+        <!--<finalName>haidiaodownloadTest</finalName>-->
+        <!--<finalName>ocean1download</finalName>-->
+        <!--<finalName>WatchDownloadFiles</finalName>-->
+        <!-- <finalName>HyMainThread</finalName>-->
+        <!--<finalName>NCread</finalName>-->
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <!-- 控制资源文件的拷贝 -->
+            <resource>
+                <directory>src/main/resources/${package.environment}</directory>
+                <targetPath>${build.path}</targetPath>
+            </resource>
+        </resources>
+        <plugins>
+            <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.xinhong.gfs.download.PoolMainThread</mainClass>
+                            <!--<mainClass>com.xinhong.gtspp.GtsppMainThread</mainClass>-->
+                            <!-- <mainClass>com.xinhong.gfs.download.DownloadManual</mainClass>-->
+                            <!-- <mainClass>com.xinhong.rtofs.download.RtofsMainThread</mainClass>-->
+                            <!-- <mainClass>com.xinhong.cfs1.download.Cfs1MainThread</mainClass>-->
+                            <!-- <mainClass>com.xinhong.wari8.download.Himawari8L2Main</mainClass>-->
+                            <!--<mainClass>com.xinhong.WatchSftpDownload.WatchDownloadFiles</mainClass>-->
+                            <!-- <mainClass>com.xinhong.READ.NCread</mainClass>-->
+                            <!--<mainClass>com.xinhong.wari8.l1.download.Wari8L1MainThread</mainClass>-->
+                            <!--<mainClass>com.xinhong.haidiao.download.HaidiaoMainThread</mainClass>-->
+                            <!--<mainClass>com.xinhong.ocean1.download.Ocean1MainThread</mainClass>-->
+                            <!--<mainClass>com.xinhong.hycom.download.HyMainThread</mainClass>-->
+                            <!--  <mainClass>com.xinhong.hycom.download.HyMainThread</mainClass>-->
+                            <!-- <mainClass>com.xinhong.READ.RtofsRead</mainClass>-->
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- 拷贝依赖的jar包到lib目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 解决资源文件的编码问题 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <!--下面一行开发时放开，打包时注释-->
+                    <!-- <outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- 打包source文件为jar文件 -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>1.8</encoding>
+                    <meminitial>512m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <package.environment>dev</package.environment>
+                <build.path>${project.build.outputDirectory}</build.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>online</id>
+            <properties>
+                <package.environment>online</package.environment>
+                <build.path>${project.build.directory}</build.path>
+            </properties>
+        </profile>
+    </profiles>
+</project>
+
+
