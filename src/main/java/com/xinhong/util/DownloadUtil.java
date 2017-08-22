@@ -14,22 +14,22 @@ public class DownloadUtil {
      * 将处在downloading状态的数据时次删除，使程序重新启动时，该时次能继续下载
      * @param path
      */
-    public static void preDownload(String path) {
-        Map<String, String> filenameMap = FileHandler.getFilenameMap(path);
-        Map<String, String> map = new HashMap<>();
-        if(filenameMap != null && filenameMap.size() > 0){
-            Iterator<String> iterator = filenameMap.keySet().iterator();
-            while(iterator.hasNext()){
-                String next = iterator.next();
-                if(filenameMap.get(next).equals(FileHandler.downloading)){
-//                    filenameMap.remove(next);
-                }else{
-                    map.put(next,filenameMap.get(next));
-                }
-            }
-        }
-        FileHandler.map2File(map,path);
-    }
+//    public static void preDownload(String path) {
+//        Map<String, String> filenameMap = FileHandler.getFilenameMap(path);
+//        Map<String, String> map = new HashMap<>();
+//        if(filenameMap != null && filenameMap.size() > 0){
+//            Iterator<String> iterator = filenameMap.keySet().iterator();
+//            while(iterator.hasNext()){
+//                String next = iterator.next();
+//                if(filenameMap.get(next).equals(FileHandler.downloading)){
+////                    filenameMap.remove(next);
+//                }else{
+//                    map.put(next,filenameMap.get(next));
+//                }
+//            }
+//        }
+//        FileHandler.map2File(map,path);
+//    }
 
     public static String localIP = getLocalIP();
 

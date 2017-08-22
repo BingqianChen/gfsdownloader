@@ -6,7 +6,6 @@ import com.xinhong.util.ConfigCommon;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +28,17 @@ public class DownloadTask implements Comparable<DownloadTask> {
         this.downInfos = info;
         this.timeVTI = timeVTI;
     }
+
+
+
+    public DownloadStatus getNewestStatus(){
+        if(downInfos==null||(downInfos!=null&&downInfos.size()==0)){
+            return null;
+        }else{
+            return downInfos.get(downInfos.size()-1).getDownstatus();
+        }
+    }
+
 
     public String getRemote() {
         return remote;
@@ -54,6 +64,7 @@ public class DownloadTask implements Comparable<DownloadTask> {
         this.downInfos = info;
     }
 
+
     public void addInfo(DownInfo info) {
         if (downInfos == null) {
             downInfos = new ArrayList<DownInfo>();
@@ -62,16 +73,23 @@ public class DownloadTask implements Comparable<DownloadTask> {
     }
 
 
-    public long difHour() {
+    private long difHour() {
         String ymdh = timeVTI.substring(0, 10);
         String vti = timeVTI.substring(10);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
+        SimpleDateFormat sdf = new SimpleDateFormat(ConfigCommon.DATE_FORMAT_GFS_YMDH);
         long dif = 9999;
         long time = 0l;
         try {
             time = sdf.parse(ymdh).getTime();
+
             time = time + Integer.valueOf(vti) * 60 * 60 * 1000l;
-            dif = Math.abs((System.currentTimeMillis() - time) / (60 * 60 * 1000) - 1);
+            dif = Math.abs((System.currentTimeMillis() - time) / (60 * 60 * 1000) - 8+1);
+            if(getRemote().contains("idx"))dif-=5;
+            if(Integer.valueOf(vti)>24){
+                dif+=12;
+                if(Integer.valueOf(vti)>48) dif+=24;
+            }
+            //8 代表北京时与世界时之差
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -193,16 +211,16 @@ public class DownloadTask implements Comparable<DownloadTask> {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("@head@");
         stringBuilder.append("\n");
-        stringBuilder.append(remote);
+        stringBuilder.append(remote==null?"":remote);
         stringBuilder.append("\n");
-        stringBuilder.append(local);
+        stringBuilder.append(local==null?"":local);
         stringBuilder.append("\n");
-        stringBuilder.append(timeVTI);
+        stringBuilder.append(timeVTI==null?"":timeVTI);
         stringBuilder.append("\n");
         stringBuilder.append("@info@\n");
         if(downInfos!=null) {
             for (DownInfo info : downInfos) {
-                stringBuilder.append(info.toString());
+                stringBuilder.append(info.toString()==null?"":info);
                 stringBuilder.append("\n");
             }
         }
@@ -211,15 +229,14 @@ public class DownloadTask implements Comparable<DownloadTask> {
         return res;
     }
 
-    public DownloadTask loadPersistentString(String str) {
-        DownloadTask task = new DownloadTask();
+    public void loadPersistentString(String str) {
         String[] strs = str.split("\n");
-        if (strs == null) return null;
-        if (strs.length <= 6) return null;
+        if (strs == null) return ;
+        if (strs.length < 6) return ;
         if (strs[0].startsWith("@head@")) {
-            task.setRemote(strs[1]);
-            task.setLocal(strs[2]);
-            task.setTimeVTI(strs[3]);
+            setRemote(strs[1]);
+            setLocal(strs[2]);
+            setTimeVTI(strs[3]);
             if(strs[4].startsWith("@info@")){
                 List<DownInfo> infos=new ArrayList<>();
                 for(int i=5;i<strs.length-1;i++){
@@ -235,11 +252,20 @@ public class DownloadTask implements Comparable<DownloadTask> {
                         info.setComment(infostrs[6]);
                     }
                 }
+                setDownInfos(infos);
             }
 
-        }else return null;
-        return task;
+        }else return ;
+        return ;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(this==o)return true;
+        else if(o instanceof DownloadTask){
+            if(((DownloadTask) o).getRemote().equals(getRemote()))return true;
+        }
+        return false;
+    }
 
 }

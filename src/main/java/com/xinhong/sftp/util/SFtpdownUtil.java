@@ -106,9 +106,10 @@ public class SFtpdownUtil {
                 return DownloadStatus.Download_New_Success;
             } catch (IOException e) {
                 e.printStackTrace();
-                return DownloadStatus.Download_New_Failed;
+//                return DownloadStatus.Download_New_Failed;
             }
         }
+        return null;
     }
 
     /**

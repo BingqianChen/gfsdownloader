@@ -1,5 +1,8 @@
 package com.xinhong.util;
 
+import com.xinhong.gfs.download.GFSStarter;
+import com.xinhong.gfs.processor.ElemLevel;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,38 +21,40 @@ public  class ConfigUtil {
     private static Properties proper = new Properties();
 
     static {
-        try {
-            proper.load(new FileInputStream(new File("gfsConf/config-common.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-gfs-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-cfs-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-cfs1-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-rtofs-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-gtspp-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-wari8old-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-hy-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-ocean1-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/config-haidiao-ftp.properties")));
-            proper.load(new FileInputStream(new File("gfsConf/ha.properties")));
 
-            System.out.println("配置文件加载失败，proper.load(new FileInputStream(new File(gfsConf/config-common.properties)))");
-            System.out.println("采用ClassLoader加载");
+        try {
+            String path=ConfigUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String rootpath=new File(path).getParent();
+            proper.load(new FileInputStream(new File(rootpath+"/gfsConf/config-common.properties")));
+            proper.load(new FileInputStream(new File(rootpath+"/gfsConf/config-gfs-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-cfs-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-cfs1-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-rtofs-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-gtspp-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-wari8old-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-hy-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-ocean1-ftp.properties")));
+//            proper.load(new FileInputStream(new File("gfsConf/config-haidiao-ftp.properties")));
+            proper.load(new FileInputStream(new File(rootpath+"/gfsConf/ha.properties")));
+            System.out.println("加载包外GFS下载配置文件");
+
         } catch (IOException e) {
             try {
-                ClassLoader classLoader = ConfigUtil.class.getClassLoader();
+                ClassLoader classLoader = GFSStarter.class.getClassLoader();
                 proper.load(classLoader.getResourceAsStream("gfsConf/config-common.properties"));
                 proper.load(classLoader.getResourceAsStream("gfsConf/config-gfs-ftp.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-cfs-ftp.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-cfs1-ftp.properties"));
-                //proper.load(classLoader.getResourceAsStream("gfsConf/config-rtofs-ftp.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-gtspp-ftp.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-wari8-ftp.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-ocean1-ftp.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-haidiao-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-cfs-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-cfs1-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-rtofs-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-gtspp-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-wari8-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-ocean1-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-haidiao-ftp.properties"));
                 proper.load(classLoader.getResourceAsStream("gfsConf/ha.properties"));
-                proper.load(classLoader.getResourceAsStream("gfsConf/config-hy-ftp.properties"));
+//                proper.load(classLoader.getResourceAsStream("gfsConf/config-hy-ftp.properties"));
+                System.out.println("加载包内GFS下载配置文件");
             } catch (IOException e1) {
-                System.out.println("ClassLoader加载失败，ClassLoader classLoader = ConfigUtil.class.getClassLoader();\n" +
-                        "                proper.load(classLoader.getResourceAsStream(gfsConf/config-common.properties))");
+                System.out.println("加载GFS下载配置文件失败");
                 e1.printStackTrace();
             }
         }

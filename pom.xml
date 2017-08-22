@@ -5,23 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>xinhong-product</groupId>
-    <!--<artifactId>gfsdownloader</artifactId>-->
-    <!--<version>1.0-SNAPSHOT</version>-->
-    <!--<groupId>net-xinhong</groupId>-->
-    <artifactId>gfsdownLoad</artifactId>
-    <!--<artifactId>gtsppdownLoad</artifactId>-->
-    <!--<artifactId>rtofsdownLoad</artifactId>-->
-    <!--<artifactId>cfs1downLoad</artifactId>-->
-    <!-- <artifactId>RtofsRead</artifactId>-->
-    <!--<artifactId>wari8downLoad</artifactId>-->
-    <!--<artifactId>wari8l1downLoad</artifactId>-->
-    <!--<artifactId>haidiaodownLoad</artifactId>-->
-    <!--<artifactId>haidiaodownLoadTest</artifactId>-->
-    <!-- <artifactId>ocean1downLoad</artifactId>-->
-    <!--<artifactId>WatchDownloadFiles</artifactId>-->
-    <!--<artifactId>READ</artifactId>-->
-    <!--<artifactId>Himawari8L2Main</artifactId>-->
-    <!-- <artifactId>HyMainThread</artifactId>-->
+
+    <!--<artifactId>gfsdownLoad</artifactId>-->
+    <artifactId>big2small</artifactId>
 
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -115,24 +101,18 @@
 
     <build>
         <finalName>gfsdownload</finalName>
-        <!--<finalName>gtsppdownload</finalName>-->
-        <!-- <finalName>rtofsdownload</finalName>-->
-        <!--<finalName>cfs1download</finalName>-->
-        <!--<finalName>RtofsRead</finalName>-->
-        <!--<finalName>Himawari8L2Main</finalName>-->
-        <!--<finalName>wari8l1download</finalName>-->
-        <!--<finalName>haidiaodownload</finalName>-->
-        <!--<finalName>haidiaodownloadTest</finalName>-->
-        <!--<finalName>ocean1download</finalName>-->
-        <!--<finalName>WatchDownloadFiles</finalName>-->
-        <!-- <finalName>HyMainThread</finalName>-->
-        <!--<finalName>NCread</finalName>-->
+
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <!-- 控制资源文件的拷贝 -->
             <resource>
                 <directory>src/main/resources/${package.environment}</directory>
                 <targetPath>${build.path}</targetPath>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources/${package.environment}</directory>
+                <!--<targetPath>${build.path}</targetPath>-->
             </resource>
         </resources>
         <plugins>
@@ -146,20 +126,8 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.xinhong.gfs.download.PoolMainThread</mainClass>
-                            <!--<mainClass>com.xinhong.gtspp.GtsppMainThread</mainClass>-->
-                            <!-- <mainClass>com.xinhong.gfs.download.DownloadManual</mainClass>-->
-                            <!-- <mainClass>com.xinhong.rtofs.download.RtofsMainThread</mainClass>-->
-                            <!-- <mainClass>com.xinhong.cfs1.download.Cfs1MainThread</mainClass>-->
-                            <!-- <mainClass>com.xinhong.wari8.download.Himawari8L2Main</mainClass>-->
-                            <!--<mainClass>com.xinhong.WatchSftpDownload.WatchDownloadFiles</mainClass>-->
-                            <!-- <mainClass>com.xinhong.READ.NCread</mainClass>-->
-                            <!--<mainClass>com.xinhong.wari8.l1.download.Wari8L1MainThread</mainClass>-->
-                            <!--<mainClass>com.xinhong.haidiao.download.HaidiaoMainThread</mainClass>-->
-                            <!--<mainClass>com.xinhong.ocean1.download.Ocean1MainThread</mainClass>-->
-                            <!--<mainClass>com.xinhong.hycom.download.HyMainThread</mainClass>-->
-                            <!--  <mainClass>com.xinhong.hycom.download.HyMainThread</mainClass>-->
-                            <!-- <mainClass>com.xinhong.READ.RtofsRead</mainClass>-->
+                            <mainClass>com.xinhong.gfs.download.GFSStarter</mainClass>
+                            <!--<mainClass>test.ManualGrib2binary</mainClass>-->
                         </manifest>
                     </archive>
                 </configuration>
@@ -220,7 +188,7 @@
                     <target>1.8</target>
                     <encoding>1.8</encoding>
                     <meminitial>512m</meminitial>
-                    <maxmem>512m</maxmem>
+                    <maxmem>2048m</maxmem>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

@@ -1,22 +1,17 @@
 package com.xinhong.gfs.processor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xinhong.gfs.download.DownloadTask;
+import com.xinhong.gfs.download.DownloadTaskCenter;
+import com.xinhong.gfs.download.TaskOperation;
 import com.xinhong.mq.Publish;
 import com.xinhong.util.ConfigCommon;
 import com.xinhong.util.ConfigUtil;
 import com.xinhong.util.DateUtil;
-import com.xinhong.util.DownloadUtil;
 import org.apache.log4j.Logger;
-
 import java.io.*;
-import java.util.Observable;
 
-
-/**
- * Created by xin on 2016/6/13.
- */
-public class GfsParseProcess  implements Runnable{
-
+public class GfsParseProcess  {
     private static String osName = System.getProperties().getProperty("os.name");
     //解释预报可执行程序路径
     private static String smallFolderSign = "_folder";
@@ -26,8 +21,10 @@ public class GfsParseProcess  implements Runnable{
     private final Logger logger = Logger.getLogger(GfsParseProcess.class);
 
     private String path;
-    public GfsParseProcess(String path){
-        this.path = path;
+    private DownloadTask task;
+    public GfsParseProcess(DownloadTask task){
+        this.task=task;
+        this.path = task.getLocal();
     }
     private String strYMDH;
     private String vti;
@@ -72,7 +69,6 @@ public class GfsParseProcess  implements Runnable{
                     logger.error(e);
                 }
 
-                //// TODO: 2016/7/29  与王烨解释预报未正常调通，故服务器暂时不生成二进制文件
                 if(ConfigUtil.getBoolean(ConfigCommon.JSYB_CREATE)){
                     logger.info("文件解析完成，开始转换成二进制dat文件，file = " + path);
                     gfsSmallBinFolder = gfsSmallFolder.replace(smallFolderSign, smallBinFolderSign);
@@ -104,6 +100,7 @@ public class GfsParseProcess  implements Runnable{
             logger.error("大文件解析小文件过程出错："+e.getMessage());
             logger.error("文件名称 : " + path);
         }
+
     }
 
 //解释预报
@@ -117,41 +114,30 @@ public class GfsParseProcess  implements Runnable{
                 ps.waitFor();
                 logger.error("InputStream errorStream = ps.getErrorStream();");
                 InputStream errorStream = ps.getErrorStream();
-//                testConsole(errorStream);
                 logger.error("InputStream inputStream = ps.getInputStream();");
                 InputStream inputStream = ps.getInputStream();
-//                testConsole(inputStream);
-
-                //填写OK信息
-//                                info = info + "_jsybOK";
-//                                String okListPath = FtpConfig.getLocalPath() + "/" + strYMDH + "/" + strYMDH + "_ok.txt";
-//                                Map<String, String> filenameMap = FileHandler.getFilenameMap(okListPath);
-//                                if(filenameMap == null){
-//                                    filenameMap = new HashMap<>();
-//                                }
-//                                String ymdhvti = strYMDH + vti;
-//                                filenameMap.put(ymdhvti, info);
-//                                FileHandler.map2File(filenameMap,okListPath);
                 //// TODO: 2016/10/20 判断解释预报文件是否生成成功
                 String path = ConfigUtil.getProperty(ConfigCommon.JSYB_DATAPATH);
                 path = path + "/" + strYMDH + "/XHGFS_G_TI_" + strYMDH + vti + ".dat";
                 File file = new File(path);
                 if(file.exists()){
                     //解释预报文件生成成功
+                    DownloadTaskCenter.notifyDownloadStatus(task, TaskOperation.Delete);
                     JSONObject object = new JSONObject();
                     object.put("name","JSYB制作");
                     object.put("msg","正常");
                     object.put("level","INFO");
-                    object.put("ip", DownloadUtil.localIP);
+                    object.put("ip", "192.168.1.114");
                     object.put("date", DateUtil.getCurrentDate_YMDHMS());
                     Publish.pub(object.toString(),ConfigUtil.getProperty("monitor_apollo_topic"),true, Publish.DestinationEnum.QUEUE);
                 }else{
+                    DownloadTaskCenter.notifyDownloadStatus(task, TaskOperation.Delete);
                     //解释预报文件生成失败
                     JSONObject object = new JSONObject();
                     object.put("name","JSYB制作");
                     object.put("msg","失败");
                     object.put("level","ERROR");
-                    object.put("ip", DownloadUtil.localIP);
+                    object.put("ip", "192.168.1.114");
                     object.put("date",DateUtil.getCurrentDate_YMDHMS());
                     Publish.pub(object.toString(),ConfigUtil.getProperty("monitor_apollo_topic"),true, Publish.DestinationEnum.QUEUE);
                 }
@@ -169,22 +155,6 @@ public class GfsParseProcess  implements Runnable{
         }
     }
 
-//    private void testConsole(InputStream ins){
-//        try {
-//            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-//            byte[] buffer = new byte[1024];
-//            int len = -1;
-//            while ((len = ins.read(buffer)) != -1) {
-//                outStream.write(buffer, 0, len);
-//            }
-//            outStream.close();
-//            ins.close();
-//            logger.info(outStream.toString());
-//            logger.info(new String(outStream.toByteArray()));
-//        }catch(IOException ioe){
-//            logger.info("testConsole error");
-//        }
-//    }
 //拆小文件
     private synchronized boolean fliterGfs(File idxF, File gfsF){
         try {
@@ -204,7 +174,6 @@ public class GfsParseProcess  implements Runnable{
                 }
                 //编辑小文件名 XHGFS_HH_G_2016071500024_0500.grb
                 filename = getXHFilename(s);
-//                filename = s.replace(":","_").replace(" ","__") + ".grb";
                 break;
 
             }

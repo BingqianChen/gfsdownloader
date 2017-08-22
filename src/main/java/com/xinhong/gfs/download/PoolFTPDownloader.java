@@ -1,9 +1,7 @@
 package com.xinhong.gfs.download;
 
-import com.alibaba.fastjson.JSONObject;
 import com.xinhong.ftp.util.DownloadStatus;
 import com.xinhong.gfs.processor.GfsParseProcess;
-import com.xinhong.util.FileHandler;
 import com.xinhong.util.FtpConfig;
 import org.apache.log4j.Logger;
 
@@ -20,28 +18,43 @@ public class PoolFTPDownloader extends FtpDownloader {
     @Override
     public void run() {
         try {
-            connect();
-            File file = new File(localfile);
-            String txtPath = FtpConfig.getLocalPath() + "/" + strYMDH + "/" + strYMDH + ".txt";
-            FileHandler.writeDownloading(file.getName(),txtPath);
+            boolean isConnected=connect();
+            String localfile=task.getLocal();
+            String remotefile=task.getRemote();
             remotefile = URLDecoder.decode(remotefile,"UTF-8");
             localfile = URLDecoder.decode(localfile,"UTF-8");
-            DownloadStatus downStatus = this.download(remotefile, localfile);
-            if(localfile.equals(lastLocalFile)){
-                String txtPath1 = FtpConfig.getLocalPath() + "/downloadFile.txt";
-                FileHandler.writeDownload(strYMDH,txtPath1);
+            int retrycnt=0;
+            while (!isConnected){
+                isConnected=connect();
+                Thread.sleep(500);
+                if(retrycnt++>5)break;
             }
-            this.disconnect();
+            DownloadStatus downStatus=DownloadStatus.FAILURE;
+            if(isConnected)
+            downStatus=download(task);
+            if(downStatus.equals(DownloadStatus.FAILURE)){
+                for(int i=0;i<10;i++){
+                    //多次下载无法下载完成，就将其放入lazylist
+                    if(!isConnected)isConnected=connect();
+                    if(isConnected) {
+                        downStatus = download(task);
+                        if (!downStatus.equals(DownloadStatus.FAILURE)) break;
+                    }
+                }
+            }
+            if(downStatus.equals(DownloadStatus.FAILURE))
+                DownloadTaskCenter.notifyDownloadStatus(task,TaskOperation.InsertLazy);
+            if(isConnected)disconnect();
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("下载有误");
         }
     }
 
     @Override
-    protected void postProcess(JSONObject info) {
-        String local= (String) info.get("localname");
+    protected void postProcess(DownloadTask task) {
+        String local= task.getLocal();
         File f=new File(local);
-        String txtPath = f.getParent() + "/" + strYMDH + ".txt";
-        FileHandler.writeDownload(f.getName(),txtPath);
         if(!local.endsWith(".idx")){
             startProcessGFS(local);
         }
@@ -88,29 +101,21 @@ public class PoolFTPDownloader extends FtpDownloader {
         return list;
     }
     
-    public PoolFTPDownloader(String _ftpURL, String _username, String _pwd, int _ftpport, String remotePath, String localPath ){
+    public PoolFTPDownloader(String _ftpURL, String _username, String _pwd, int _ftpport, DownloadTask _task){
         //设置将过程中使用到的命令输出到控制台
         ftpURL = _ftpURL;
         username = _username;
         pwd = _pwd;
         ftpport = _ftpport;
-        remotefile = remotePath;
-        localfile = localPath;
-//        logger.info("remotepath = " + remotePath);
-//        logger.info("localPath = " +  localPath);
-//        this.ftpClient.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
+        task=_task;
     }
     String lastLocalFile = "";
     String strYMDH = "";
 
-    public void setDownloadInfo(String lastLocalFile, String strYMDH){
-        this.lastLocalFile = lastLocalFile;
-        this.strYMDH = strYMDH;
-    }
 
     //解小文件与二进制文件
     private void startProcessGFS(String local) {
-        GfsParseProcess process = new GfsParseProcess(local);
-        new Thread(process).start();
+//        GfsParseProcess process = new GfsParseProcess(local);
+//        new Thread(process).start();
     }
 }

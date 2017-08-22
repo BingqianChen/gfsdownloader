@@ -1,15 +1,13 @@
 package com.xinhong.gfs.download;
 
-import com.xinhong.ftp.util.FTPUtil;
+import com.xinhong.gfs.processor.GfsParseProcess;
 import com.xinhong.util.*;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,24 +28,36 @@ public class GFSStarter {
         try {
             //不能用log4j.properties ,如果别的jar包中有log4j.properties，将会影响
             //classLoader.getResourceAsStream()==null 的判断，会加载jar别的类库中的log4j.properties
-            FileInputStream fileInputStream = new FileInputStream(new File("gfsConf/log4j.properties"));
+            String path=GFSStarter.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String rootpath=new File(path).getParent();
+            FileInputStream fileInputStream = new FileInputStream(new File(rootpath+"/gfsConf/log4j.properties"));
             PropertyConfigurator.configure(fileInputStream);
-            System.out.println("配置文件加载失败：FileInputStream fileInputStream = new FileInputStream(new File(gfsConf/log4j.properties));\n" +
-                    "            PropertyConfigurator.configure(fileInputStream);\r\n" +
-                    "采用ClassLoader加载方式");
+            System.out.println("加载包外log4j配置文件");
         } catch (FileNotFoundException e) {
             try {
                 ClassLoader classLoader = GFSStarter.class.getClassLoader();
                 PropertyConfigurator.configure(classLoader.getResourceAsStream("gfsConf/log4j.properties"));
+                System.out.println("加载包内log4j配置文件");
             } catch (Exception e1) {
-                System.out.println("ClassLoader加载配置文件失败，ClassLoader classLoader = PoolMainThread.class.getClassLoader();\n" +
-                        "                PropertyConfigurator.configure(classLoader.getResourceAsStream(gfsConf/log4j.properties));");
+                System.out.println("log4j配置文件加载失败;");
                 e1.printStackTrace();
             }
         }
     }
 
     private ExecutorService pool = null;
+//    private ExecutorService postpool = null;
+    private static int postThreadNum =1;
+
+    static {
+        System.out.println("test 1");
+        String str=ConfigUtil.getProperty("thread.postprocess");
+        System.out.println("test 2");
+        if(str!=null)
+            postThreadNum =Integer.valueOf(str.matches("\\d+?")?
+                str:"1");
+    }
+
     /**
      * 关闭线程池
      */
@@ -69,29 +79,36 @@ public class GFSStarter {
 
     private void start() {
         // 启动下载消息中心
-        new Thread(new Runnable() {
+        Thread centerThread=new Thread(new Runnable() {
             @Override
             public void run() {
                 new DownloadTaskCenter().init();
             }
-        }).start();
+        });
+//        postpool = Executors.newFixedThreadPool(postThreadNum);
+        for(int i=0;i<postThreadNum;i++)new postThread().start();
+        centerThread.setPriority(3);
+        centerThread.start();
         pool = Executors.newFixedThreadPool(FtpConfig.getThreads());
         //下载文件
         while (true) {
             //请求下载任务
-            DownloadTask remote = DownloadTaskCenter.getInstance().asignTask();
-            if(remote!=null&&remote.getRemote()!=null) {
+            DownloadTask task = DownloadTaskCenter.getInstance().asignTask();
+            if(task!=null&&task.getRemote()!=null) {
+                logger.info("DownloadTask is alive,newest task is "+task.getRemote());
                 PoolFTPDownloader ftpDownloader = new PoolFTPDownloader(FtpConfig.getHOST(),
                         FtpConfig.getUsername(), FtpConfig.getPassword(), FtpConfig.getPORT(),
-                        remote.getRemote(), remote.getLocal());
+                        task);
                 pool.execute(ftpDownloader);
             }
+
             try {
-                Thread.sleep(50000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
 
     }
 
@@ -101,6 +118,23 @@ public class GFSStarter {
         //因正在下载的数据未完全下载完成，需继续下载
         GFSStarter starter = new GFSStarter();
         starter.start();
+    }
+
+    class postThread extends Thread{
+
+        @Override
+        public void run() {
+            while (true){
+                //单线程
+                GfsParseProcess process=DownloadTaskCenter.getInstance().asignPostProcessTask();
+                if(process!=null)process.run();
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 

@@ -9,6 +9,7 @@ public class ConfigCommon {
     public static final String DATE_DEFAULT_FORMAT_YMDH = "yyyy-MM-dd HH";
     public static final String DATE_DEFAULT_FORMAT_YMD = "yyyy-MM-dd";
     public static final String DATE_DEFAULT_FORMAT_DATA = "yyyyMM";
+    public static final String DATE_FORMAT_GFS_YMDH="yyyyMMddHH";
 
     //#GFS数据入库REDIS调用地址
     public static final String GFS2REDIS_URL = "gfs2redis.url";

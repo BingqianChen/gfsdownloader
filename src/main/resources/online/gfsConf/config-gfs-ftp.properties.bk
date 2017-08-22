@@ -4,12 +4,9 @@ _ext=gfs.
 scale=z.pgrb2.0p25.f
 #本地存储目录
 local_path=/xinhong/meteo_data/download_data/gfs
-#local_path=/xinhong/meteo_data/download_data/gfs-bak
 #local_path=/download/gfsdata
 #解释预报存储目录
-#jsyb_path=/xinhong/meteo_data/download_data/gfsjsyb-bak
 jsyb_path=/xinhong/meteo_data/download_data/jsybres
-
 #jsyb_path=/xinhong/download/jsybres
 #远程下载目录
 path=/pub/data/nccf/com/gfs/prod
@@ -40,7 +37,7 @@ isPASV=true
 #传输编码
 encoding=UTF-8
 #启动的线程数
-threads=2
+threads=4
 #
 username=anonymous
 password=
@@ -48,22 +45,3 @@ HOST=140.90.101.61
 PORT=21
 
 threadtimePath=/home/app/meteo_server/gfs/logs/threadtime.txt
-
-# center properties
-#center.path=/home/app/meteo_server/gfs/persistent/
-center.path=/xinhong/meteo_data/download_data/gfs/
-center.normal=normal.dat
-center.lazy=lazy.dat
-center.emgency=emgency.dat
-center.record=record.dat
-center.downloading=downloading.dat
-center.postprocess=postprocess.dat
-
-# breakpoint download
-down.checkbytes=64
-dwon.blocksize=1024000
-down.piecesize=1024
-down.rollsize=10240000
-
-# process thread
-thread.postprocess=2

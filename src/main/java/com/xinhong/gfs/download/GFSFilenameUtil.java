@@ -30,62 +30,6 @@ public class GFSFilenameUtil {
     }
 
 
-//    private TreeMap<String, String> getFilemapList(String strYMDH) {
-//        String strHH = strYMDH.substring(8, 10);
-//        String txtPath = FtpConfig.getLocalPath() + "/" + strYMDH + "/" + strYMDH + ".txt";
-//        Map<String, String> filenameMap = FileHandler.getFilenameMap(txtPath);
-//        TreeMap<String, String> filepathTreeMap = new TreeMap<String, String>();
-//        for (int i = 0; i < FtpConfig.getVtis().length; i++) {
-//            String remoteGfsName = FtpConfig.getExt() + "t" + strHH + FtpConfig.getScale() + FtpConfig.getVtis()[i];
-//            String remoteSubpath = "/" + FtpConfig.getExt() + strYMDH + "/" + remoteGfsName;
-//            String remotePath = FtpConfig.getPath() + remoteSubpath;
-//            String localGfsName = strYMDH + "_" + FtpConfig.getExt() + "t" + strHH + FtpConfig.getScale() + FtpConfig.getVtis()[i];
-//            String localpath = FtpConfig.getLocalPath() + "/" + strYMDH + "/" + localGfsName;
-//            if (filenameMap == null || !filenameMap.containsKey(localGfsName + ".idx")
-//                    || filenameMap.get(localGfsName + ".idx").equals(FileHandler.downloading)) {
-//                filepathTreeMap.put(remotePath + ".idx", localpath + ".idx");
-//            }
-//            if (filenameMap == null || !filenameMap.containsKey(localGfsName)
-//                    || filenameMap.get(localGfsName).equals(FileHandler.downloading)) {
-//                filepathTreeMap.put(remotePath, localpath);
-//            }
-//            if (i == FtpConfig.getVtis().length - 1) {
-//                lastLocal = localpath;
-//            }
-//        }
-//        return filepathTreeMap;
-//    }
-//
-//    private TreeMap<List<String>, List<String>> getFilepathList(String strYMDH) {
-//        String strHH = strYMDH.substring(8, 10);
-//        String txtPath = FtpConfig.getLocalPath() + "/" + strYMDH + "/" + strYMDH + ".txt";
-//        Map<String, String> filenameMap = FileHandler.getFilenameMap(txtPath);
-//        TreeMap<List<String>, List<String>> map = new TreeMap<>();
-//        List<String> remoteList = new ArrayList<>();
-//        List<String> localList = new ArrayList<>();
-//        for (int i = 0; i < FtpConfig.getVtis().length; i++) {
-//            String remoteGfsName = FtpConfig.getExt() + "t" + strHH + FtpConfig.getScale() + FtpConfig.getVtis()[i];
-//            String remoteSubpath = "/" + FtpConfig.getExt() + strYMDH + "/" + remoteGfsName;
-//            String remotePath = FtpConfig.getPath() + remoteSubpath;
-//            String localGfsName = strYMDH + "_" + FtpConfig.getExt() + "t" + strHH + FtpConfig.getScale() + FtpConfig.getVtis()[i];
-//            String localpath = FtpConfig.getLocalPath() + "/" + strYMDH + "/" + localGfsName;
-//            if (filenameMap == null || !filenameMap.containsKey(localGfsName + ".idx")
-//                    || filenameMap.get(locTaskalGfsName + ".idx").equals(FileHandler.downloading)) {
-//                remoteList.add(remotePath + ".idx");
-//                localList.add(localpath + ".idx");
-//            }
-//            if (filenameMap == null || !filenameMap.containsKey(localGfsName)
-//                    || filenameMap.get(localGfsName).equals(FileHandler.downloading)) {
-//                remoteList.add(remotePath);
-//                localList.add(localpath);
-//            }
-//            if (i == FtpConfig.getVtis().length - 1) {
-//                lastLocal = localpath;
-//            }
-//        }
-//        map.put(remoteList, localList);
-//        return map;
-//    }
 
 
     public static String getLocalFilePath(String strYMDH,String gfsname) {
