@@ -1,6 +1,7 @@
 package com.xinhong.gfs.download;
 
 import com.xinhong.ftp.util.FTPUtil;
+import com.xinhong.util.ConfigUtil;
 import com.xinhong.util.DateUtil;
 import com.xinhong.util.FtpConfig;
 import org.apache.commons.net.ftp.FTPClient;
@@ -40,6 +41,12 @@ public class GFSFilenameUtil {
 
     public static  List<DownloadTask>  getCurrent() {
         String currdateDate = DateUtil.getCurrentDate();
+        //test
+        String testDelayDay=ConfigUtil.getProperty("test.delayDay");
+        if(testDelayDay!=null&&testDelayDay.matches("\\d+?")){
+
+            currdateDate= DateUtil.dateAddHour(currdateDate, -24*Integer.valueOf(testDelayDay));
+        }
         String fileDate = DateUtil.dateAddHour(currdateDate, -8);
 //        logger.info("当前系统时间-8小时：" + fileDate);
         String[] dateAry = fileDate.split(" ");
@@ -47,13 +54,13 @@ public class GFSFilenameUtil {
         String year = ymd[0];
         String month = ymd[1];
         String day = ymd[2];
-        String hour = dateAry[1];
-        String HH = getHH(hour);
-        String currymdh = year + month + day + hour;
-        if (HH.equals("12") && Integer.parseInt(hour) < 5) {
-            fileDate = DateUtil.dateAddHour(fileDate, -24);
-            dateAry = fileDate.split(" ");
-            ymd = dateAry[0].split("-");
+                    String hour = dateAry[1];
+            String HH = getHH(hour);
+            String currymdh = year + month + day + hour;
+            if (HH.equals("12") && Integer.parseInt(hour) < 5) {
+                fileDate = DateUtil.dateAddHour(fileDate, -24);
+                dateAry = fileDate.split(" ");
+                ymd = dateAry[0].split("-");
             year = ymd[0];
             month = ymd[1];
             day = ymd[2];

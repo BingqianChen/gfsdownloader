@@ -1,5 +1,6 @@
 package com.xinhong.gfs.download;
 
+import com.xinhong.gfs.processor.DetailedSeqThreadsPool;
 import com.xinhong.gfs.processor.GfsParseProcess;
 import com.xinhong.util.*;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import java.util.concurrent.Executors;
 public class GFSStarter {
     private final static String threadtimePath = ConfigUtil.getProperty(ConfigCommon.THREAD_TIME_PATH);
     private final Logger logger = Logger.getLogger(GFSStarter.class);
+    boolean requestFlag=true;
 
     static {
         init();
@@ -45,8 +47,6 @@ public class GFSStarter {
         }
     }
 
-    private ExecutorService pool = null;
-//    private ExecutorService postpool = null;
     private static int postThreadNum =1;
 
     static {
@@ -56,13 +56,6 @@ public class GFSStarter {
         if(str!=null)
             postThreadNum =Integer.valueOf(str.matches("\\d+?")?
                 str:"1");
-    }
-
-    /**
-     * 关闭线程池
-     */
-    private void shutdownPool() {
-        pool.shutdown();
     }
 
     private String getHH(String hour) {
@@ -77,6 +70,10 @@ public class GFSStarter {
         return HH;
     }
 
+    static int downThreadNum=ConfigUtil.getProperty("thread.postprocess")==null?
+            1:Integer.valueOf(ConfigUtil.getProperty("thread.postprocess"));
+    DetailedSeqThreadsPool pool=null;
+
     private void start() {
         // 启动下载消息中心
         Thread centerThread=new Thread(new Runnable() {
@@ -86,22 +83,25 @@ public class GFSStarter {
             }
         });
 //        postpool = Executors.newFixedThreadPool(postThreadNum);
+        pool=new DetailedSeqThreadsPool(downThreadNum);
         for(int i=0;i<postThreadNum;i++)new postThread().start();
         centerThread.setPriority(3);
         centerThread.start();
-        pool = Executors.newFixedThreadPool(FtpConfig.getThreads());
         //下载文件
         while (true) {
             //请求下载任务
-            DownloadTask task = DownloadTaskCenter.getInstance().asignTask();
-            if(task!=null&&task.getRemote()!=null) {
-                logger.info("DownloadTask is alive,newest task is "+task.getRemote());
-                PoolFTPDownloader ftpDownloader = new PoolFTPDownloader(FtpConfig.getHOST(),
-                        FtpConfig.getUsername(), FtpConfig.getPassword(), FtpConfig.getPORT(),
-                        task);
-                pool.execute(ftpDownloader);
+            if(requestFlag) {
+                DownloadTask task = DownloadTaskCenter.getInstance().asignTask();
+                if (task != null && task.getRemote() != null) {
+                    logger.info("DownloadTask is alive,newest task is " + task.getRemote());
+                    PoolFTPDownloader ftpDownloader = new PoolFTPDownloader(FtpConfig.getHOST(),
+                            FtpConfig.getUsername(), FtpConfig.getPassword(), FtpConfig.getPORT(),
+                            task);
+                    pool.addAndStart(new Thread(ftpDownloader));
+                }
             }
-
+            if (pool.getQueueThreadSize() < downThreadNum) requestFlag = true ;
+            else requestFlag=false;
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

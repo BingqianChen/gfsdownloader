@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/gfsdownloader.iml" filepath="$PROJECT_DIR$/gfsdownloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gfsdownLoad.iml" filepath="$PROJECT_DIR$/gfsdownLoad.iml" />
     </modules>
   </component>
 </project>

@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="gfsdownloader" />
+        <module name="gfsdownLoad" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="gfsdownloader" target="1.8" />
+      <module name="gfsdownLoad" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
